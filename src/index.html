@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slay the WebGL - Chron-Cards</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.3/build/index.module.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Screen Flash Overlay -->
+    <div id="flash-overlay"></div>
+
+    <!-- 3D WebGL Canvas Container -->
+    <div id="world"></div>
+
+
+    <!-- UI Overlay Layer -->
+    <div id="ui-container">
+        <!-- 상단 헤더: 스테이지 정보 및 안내 -->
+        <header id="stage-header">
+            <h1 id="stage-title">STAGE 1 - 빛의 신전 유적 (Temple of Light)</h1>
+            <p id="system-message">당신의 턴입니다! 카드를 사용해 적을 공격하세요!</p>
+        </header>
+
+        <!-- 좌측 하단: 마나(Energy) 카운터 -->
+        <div id="mana-container">
+            <div id="mana-orb">
+                <span id="current-mana">3</span>/<span id="max-mana">3</span>
+            </div>
+            <div id="mana-label">ENERGY</div>
+        </div>
+
+        <!-- 우측 하단: 액션 버튼들 -->
+        <div id="action-container">
+            <button id="deck-btn">🎴 DECK (<span id="deck-btn-count">12</span>)</button>
+            <button id="end-turn-btn">TURN END</button>
+        </div>
+
+
+        <!-- 디버그 패 패널 및 키 가이드 -->
+        <div id="debug-guide">
+            <p><strong>[Key Guide]</strong></p>
+            <p>W, S, A, D: 카메라 조작</p>
+            <p>H: 디버그 헬퍼 (BVH, Axes) 토글</p>
+            <p>마우스 드래그: 카드 조준 및 적 타겟팅</p>
+        </div>
+
+        <!-- 획득한 유물(Relic) 목록 -->
+        <div id="relics-container">
+            <div id="relics-title">👑 RELICS</div>
+            <div id="relics-list"></div>
+        </div>
+
+
+        <!-- 캐릭터 상태 바 오버레이 -->
+        <div id="character-stats">
+            <div id="player-stat" class="stat-box">
+                <div class="name">PLAYER (KNIGHT)</div>
+                <div class="hp-bar-container"><div id="player-hp" class="hp-bar" style="width: 100%;"></div></div>
+                <div class="hp-text"><span id="player-shield-display" style="color:#50c878; font-weight:bold; margin-right:10px; display:none;">🛡️ <span id="player-shield-val">0</span></span><span id="player-hp-val">80</span> / <span id="player-max-hp-val">80</span> HP</div>
+            </div>
+            <div id="enemy-stat" class="stat-box">
+                <div id="enemy-name" class="name">BOSS (ANCIENT GOLEM)</div>
+                <div class="hp-bar-container"><div id="enemy-hp" class="hp-bar" style="width: 100%;"></div></div>
+                <div class="hp-text"><span id="enemy-hp-val">120</span> / <span id="enemy-max-hp-val">120</span> HP</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 결과 모달 창 (승리/패배) -->
+    <div id="game-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">결과</h2>
+            <p id="modal-desc">설명</p>
+            <div id="modal-buttons" class="button-group">
+                <!-- 버튼들은 동적으로 생성/변경됩니다 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 덱 목록 모달 창 (frosted glass) -->
+    <div id="deck-modal" class="modal-overlay hidden">
+        <div class="modal-content deck-modal-content">
+            <h2 id="deck-modal-title">🎴 내 덱 목록 (DECK)</h2>
+            <div id="deck-pile-info">
+                <span class="pile-tag draw-tag">남은 카드(Draw): <span id="draw-count">0</span></span>
+                <span class="pile-tag discard-tag">버린 카드(Discard): <span id="discard-count">0</span></span>
+            </div>
+            <div id="deck-list-container">
+                <!-- 덱 카드 목록이 동적으로 들어옵니다 -->
+            </div>
+            <button id="close-deck-btn" class="modal-btn secondary">닫기 (CLOSE)</button>
+        </div>
+    </div>
+
+    <!-- 보상 선택 모달 창 -->
+    <div id="reward-modal" class="modal-overlay hidden">
+        <div class="modal-content reward-modal-content">
+            <h2 id="reward-title">🎁 보상 선택</h2>
+            <p id="reward-desc">보상을 선택하세요.</p>
+            <div id="reward-list-container">
+                <!-- 선택지 3개가 동적으로 렌더링됩니다 -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 메인 게임 실행 스크립트 -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
