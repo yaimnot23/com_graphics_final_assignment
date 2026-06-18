@@ -4,6 +4,11 @@
 
 ### (3D 로그라이크 덱빌딩 카드 게임 개발 및 그래픽스 이론 매핑 분석)
 
+* **🎮 웹 게임 구동 데모 링크**: [https://yaimnot23.github.io/com_graphics_final_assignment/src/index.html](https://yaimnot23.github.io/com_graphics_final_assignment/src/index.html)
+* **📝 기술 보고서(Repository) 링크**: [https://github.com/yaimnot23/com_graphics_final_assignment/blob/main/docs/graphics_mapping_report.md](https://github.com/yaimnot23/com_graphics_final_assignment/blob/main/docs/graphics_mapping_report.md)
+
+---
+
 본 보고서는 **컴퓨터그래픽스 최종 과제**인 **3D 로그라이크 덱빌딩 카드 게임 (Slay the WebGL - Chronicles of Light & Cards)** 프로젝트에 적용된 그래픽스 이론(L1 ~ L6)과 글로벌 일루미네이션(GI) 기법, 최적화 이론(BVH)이 실제 게임 엔진 소스 코드에 어떻게 연동 및 결합되어 있는지 상세히 명세하는 기술 보고서입니다.
 
 ---
