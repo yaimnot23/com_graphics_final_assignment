@@ -152,21 +152,30 @@ window.updateDeckUI = function () {
 };
 
 
-// ─── 애니메이션 루프 ──────────────────────────────────
+// ─── 애니메이션 루프 (60FPS 제한을 통해 고주사율 모니터에서의 속도 과가속 해결) ───
+let then = performance.now();
+const fpsInterval = 1000 / 60;
+
 function animate() {
     requestAnimationFrame(animate);
-    const time = performance.now() * 0.001;
+    const now = performance.now();
+    const elapsed = now - then;
 
-    updateCharacters(time);
-    updateCards(mouse, isDraggingCard, selectedCard);
-    updateProjectiles(checkSphereCollision); // 투사체 비행 및 실시간 BVH 구체 충돌 연동
-    updateGIProbes();
-    updateParticles(); // 3D 파티클 좌표 및 라이프타임 업데이트
-    updateFloatingDust(); // 에테르 부유 먼지 업데이트
-    updateDecors(); // 외곽 크리스탈 부유 및 회전 업데이트
-    _updateCamera();
+    if (elapsed >= fpsInterval) {
+        then = now - (elapsed % fpsInterval);
+        const time = now * 0.001;
 
-    renderer.render(scene, camera);
+        updateCharacters(time);
+        updateCards(mouse, isDraggingCard, selectedCard);
+        updateProjectiles(checkSphereCollision); // 투사체 비행 및 실시간 BVH 구체 충돌 연동
+        updateGIProbes();
+        updateParticles(); // 3D 파티클 좌표 및 라이프타임 업데이트
+        updateFloatingDust(); // 에테르 부유 먼지 업데이트
+        updateDecors(); // 외곽 크리스탈 부유 및 회전 업데이트
+        _updateCamera();
+
+        renderer.render(scene, camera);
+    }
 }
 
 
